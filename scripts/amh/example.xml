@@ -1,0 +1,126 @@
+http://www.atlasofmutualheritage.nl/nl/object/?id=2634
+
+    <record>
+      <priref>2634</priref> Nummer
+      <description occurrence="1" lang="nl-NL">- Titel catalogus Leupe (NA): &lt;Kaart van het Eyland Ceylon, verbeetert zoo veel de bezittingen van de Edele Nederlandsche Komp. aangaat, en inzonderheid zoo veel aangaat, de aan de Edele by de vreede van 1766 afgestaande stranden enz.&gt;.
+- Zichtbaar zijn de stranden waarvan de VOC afstand doet.
+- Topografische namen van de eilanden: &lt;Amsterdam of Kaaretiwoe, Woest Rotterdam of Anneleitiwoe, Katoen, Poelientiwoe, Haarlem of Nuynatiwoe, Middelburg of Manditiwoe, Delft of Nedoentiwoe, Caits Welene, Perie Kanatoe, Galienje of Kakerestwoe, Galue of Palletiwoe, Buffels, Twee Gebroeders of Irenetiwoe, Enkuisen, Manaar, Kariardiwoe&gt;.</description>
+      <description occurrence="1" lang="en-GB">- According to the Leupe catalogue (NA), the original title reads: &lt;Kaart van het Eyland Ceylon, verbeetert zoo veel de bezittingen van de Edele Nederlandsche Komp. aangaat, en inzonderheid zoo veel aangaat, de aan de Edele by de vreede van 1766 afgestaande stranden enz.&gt;.
+- The beaches relinquished by the VOC are marked.
+- Topographical names of the islands: &lt;Amsterdam of Kaaretiwoe, Woest Rotterdam of Anneleitiwoe, Katoen, Poelientiwoe, Haarlem of Nuynatiwoe, Middelburg of Manditiwoe, Delft of Nedoentiwoe, Caits Welene, Perie Kanatoe, Galienje of Kakerestwoe, Galue of Palletiwoe, Buffels, Twee Gebroeders of Irenetiwoe, Enkuisen, Manaar, Kariardiwoe&gt;.</description>
+      <VOC>x</VOC> <!-- VOC en WIC collectie, zie vinkjes op de homepage -->
+      <dimension.free>232 x 154 cm</dimension.free>
+      <production.date.end>1789</production.date.end> <!-- Zijn bijna altijd identiek -->
+      <production.date.start>1789</production.date.start>
+      <reproduction.format/>
+      <reproduction.reference>VEL0927.jpg</reproduction.reference> <!-- http://amh.adlibhosting.com/atlasofmutualheritage/wwwopac.ashx?command=getcontent&server=images&value=VEL0927.jpg&width=2400&height=2400 -->
+
+      <creator.role occurrence="1" lang="nl-NL">landmeter / kaartenmaker</creator.role> <!-- gekoppeld aan creator veld -->
+      <creator.role occurrence="1" lang="en-GB">land surveyor / mapmaker</creator.role>
+      <creator.role occurrence="2" lang="nl-NL">opdrachtgever</creator.role>
+      <creator.role occurrence="2" lang="en-GB">patron</creator.role>
+
+      <current_owner>Nationaal Archief</current_owner>
+
+      <alternative_number>VEL0927</alternative_number>
+      <alternative_number.type occurrence="1" lang="nl-NL">inventarisnr.</alternative_number.type>
+      <alternative_number.type occurrence="1" lang="en-GB">inventory no.</alternative_number.type>
+
+      <inscription.creator>Duperon</inscription.creator>
+
+      <object_number>227</object_number> <!-- Oude referentie -->
+
+      <material occurrence="1" lang="nl-NL">papier</material>
+      <material occurrence="1" lang="en-GB">paper</material>
+
+      <object_category occurrence="1" lang="nl-NL">tekening</object_category>
+      <object_category occurrence="1" lang="en-GB">drawing</object_category>
+
+      <related_object.title occurrence="1" lang="nl-NL">Colombo</related_object.title>
+      <related_object.title occurrence="1" lang="en-GB">Colombo</related_object.title>
+      <related_object.title occurrence="2" lang="nl-NL">Katuwana</related_object.title>
+      <related_object.title occurrence="2" lang="en-GB">Katuwana</related_object.title>
+      <related_object.title occurrence="3" lang="nl-NL">Mannar</related_object.title>
+      <related_object.title occurrence="3" lang="en-GB">Mannar</related_object.title>
+      <related_object.title occurrence="4" lang="nl-NL">Iranativu North &amp; South</related_object.title>
+      <related_object.title occurrence="4" lang="en-GB">Iranativu North &amp; South</related_object.title>
+      <related_object.title occurrence="5" lang="nl-NL">Delft island</related_object.title>
+      <related_object.title occurrence="5" lang="en-GB">Delft island</related_object.title>
+      <related_object.title occurrence="6" lang="nl-NL">Analaitivu</related_object.title>
+      <related_object.title occurrence="6" lang="en-GB">Analaitivu</related_object.title>
+
+      <production.period occurrence="1" lang="nl-NL">1789</production.period> <!-- zelfde als production date_end -->
+      <production.period occurrence="1" lang="en-GB">1789</production.period>
+
+      <reproduction.date/>
+
+      <related_object.association occurrence="1" lang="nl-NL">Post</related_object.association>
+      <related_object.association occurrence="1" lang="en-GB">Post</related_object.association>
+      <related_object.association occurrence="2" lang="nl-NL">Post</related_object.association>
+      <related_object.association occurrence="2" lang="en-GB">Post</related_object.association>
+      <related_object.association occurrence="3" lang="nl-NL">Post</related_object.association>
+      <related_object.association occurrence="3" lang="en-GB">Post</related_object.association>
+      <related_object.association occurrence="4" lang="nl-NL">Post</related_object.association>
+      <related_object.association occurrence="4" lang="en-GB">Post</related_object.association>
+      <related_object.association occurrence="5" lang="nl-NL">Post</related_object.association>
+      <related_object.association occurrence="5" lang="en-GB">Post</related_object.association>
+      <related_object.association occurrence="6" lang="nl-NL">Post</related_object.association>
+      <related_object.association occurrence="6" lang="en-GB">Post</related_object.association>
+      <reproduction.type occurrence="1" lang="nl-NL"/>
+      <reproduction.creator/>
+      <title occurrence="1" lang="nl-NL">Kaart van Ceylon</title>
+      <title occurrence="1" lang="en-GB">Map of Ceylon</title>
+      <technique occurrence="1" lang="nl-NL">ingekleurde tekening</technique>
+      <technique occurrence="1" lang="en-GB">coloured drawing</technique>
+      <inscription.content>Kaart van het Eyland Ceylon, verbeetert zoo veel de bezittingen van de Edele Nederlandsche Komp. aangaat, en inzonderheid zoo veel aangaat, de aan de Edele by de vreede van 1766 afgestaande stranden ende daar aan grensende binnen landen, naar de nieuste meetings die daar van zyn gedaan, in differente teyden en door ondergescheydene perzoonen opgemaakt vanden WelEdele groot agb. Heer Willem Jakob van de Graaff, Raad ordinair van Nederlands Indien Gouverneur en direkteur van Ceylon, door Duperon 1789 / De limieten van Skonings Land, zyn met een roode streep aangewezen al wat daar buyten legt behoort de Edele Nederlandsche Komp.</inscription.content>
+      <creator>Perron, Jean du</creator>
+      <creator>Graaf, Willem Jacob</creator>
+      <association.subject.latitude/>
+      <association.subject.latitude/>
+      <association.subject.latitude/>
+      <association.subject.longitude/>
+      <association.subject.longitude/>
+      <association.subject.longitude/>
+      <input.date>2011-08-08</input.date>
+      <edit.date>2006-01-04</edit.date>
+      <scale occurrence="1" lang="nl-NL">4 D.m. = 145 strepen: Omgerekende schaal: [ca. 1:204.342]</scale>
+      <scale occurrence="1" lang="en-GB">4 D.m. = 145 strepen: [ca. 1:204.342]</scale>
+
+      <!-- negeren, kwaliteit is hier slecht van -->
+      <association.subject occurrence="1" lang="nl-NL">plattegrond / kaart</association.subject>
+      <association.subject occurrence="1" lang="en-GB">chart / map / plan</association.subject>
+      <association.subject occurrence="2" lang="nl-NL">landerij / plantage</association.subject>
+      <association.subject occurrence="2" lang="en-GB">estate / plantation</association.subject>
+      <association.subject occurrence="3" lang="nl-NL">banderol / cartouche / versiering</association.subject>
+      <association.subject occurrence="3" lang="en-GB">banderole / cartouche / ornamentation</association.subject>
+
+      <input.notes>conversie</input.notes> <!-- niet nodig -->
+
+      <creator.date_of_birth/>
+      <creator.date_of_birth/>
+      <creator.date_of_death/>
+      <creator.date_of_death/>
+
+      <input.name>AIS</input.name> <!-- niet nodig -->
+
+      <creator.history occurrence="1" lang="nl-NL"/>
+      <creator.history occurrence="2" lang="nl-NL"/>
+
+      <!-- record_type niet nodig -->
+      <record_type option="OBJECT" value="OBJECT">
+        <text language="0">single object</text>
+        <text language="1">enkelvoudig object</text>
+        <text language="2">objet individuel</text>
+        <text language="3">Einzelnes Objekt</text>
+      </record_type>
+
+      <record_type>single object</record_type>
+
+      <!-- referenties posten -->
+      <related_object.reference>post12</related_object.reference>
+      <related_object.reference>post101</related_object.reference>
+      <related_object.reference>post109</related_object.reference>
+      <related_object.reference>post274</related_object.reference>
+      <related_object.reference>post283</related_object.reference>
+      <related_object.reference>post701</related_object.reference>
+    </record>
