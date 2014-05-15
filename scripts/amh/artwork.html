@@ -1,0 +1,53 @@
+== {{int:filedesc}} ==
+{{Artwork
+  <% if title_nl or title_en %>
+  |title            = {{nl|<%= title_nl %>}}
+                      {{en|<%= title_en %>}}
+  <% endif %>
+  <% if description_nl or description_en %>
+  |description      = {{nl|<%= description_nl %>}}
+                      {{en|<%= description_en %>}}
+  <% endif %>
+  |source           = {{Atlas of Mutual Heritage|institute=<%= institution_shortcode %>}}
+  [http://www.atlasofmutualheritage.nl/en/object/?id=<%= amh_id %> Source on the AMH website]
+  |notes            =
+  <% if subjects_en %>
+    {{en|'''Subjects''': <%= subjects_en %>}}
+  <% endif %>
+  <% if subjects_nl %>
+    {{nl|'''Onderwerpen''': <%= subjects_nl %>}}
+  <% endif %>
+  <% if inscriptions %>
+  |inscriptions     = {{Inscription
+      |1=<%= inscription_text %>
+      <% if inscription_creator %>
+      |comment = author: <%= inscription_creator %>
+      <% endif %>
+  }}
+  <% endif %>
+  |date             = <%= date %>
+  |author           =
+  |institution      = {{Institution:<%= institution %>}}
+  |medium           =
+  <% if medium_nl %>
+    {{nl|<%= medium_nl %>}}
+  <% endif %>
+  <% if medium_en %>
+    {{en|<%= medium_en %>}}
+  <% endif %>
+  <% if dimensions %>
+  |dimensions       = <%= dimensions %>
+  <% endif %>
+  |accession number = <%= accession_number %>
+  |permission       = {{PD-Art-100}}
+}}
+
+<!-- <metadata_mapped_json><%= jsondata %></metadata_mapped_json> -->
+
+<!-- <metadata_raw>
+<%= xmldata %>
+</metadata_raw> -->
+
+<% for category in categories %>
+[[Category:<%= category %>]]
+<% endfor %>
