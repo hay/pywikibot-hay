@@ -6,19 +6,10 @@ cal = parsedatetime.Calendar()
 class Artwork():
     record = False
 
-    categories = []
-
     is_voc = False
     is_wic = False
 
-    subjects_nl = []
-    subjects_en = []
-
     MAP_SUBJECT = "chart / map / plan"
-
-    params = {
-        "authors" : []
-    }
 
     DIMENSION_REGEX = re.compile("(.*) x (.*) (.*)")
 
@@ -42,9 +33,13 @@ class Artwork():
         "notes" : ["association.subject"]
     }
 
-    def __init__(self, record, locations):
+    def __init__(self, record = None, locations = None):
         self.record = record
         self.locations = locations
+        self.params = { "authors" : [] }
+        self.subjects_nl = []
+        self.subjects_en = []
+        self.categories = []
 
     def itertags(self, record):
         for tag in record:
@@ -124,7 +119,7 @@ class Artwork():
         ref = self.record.find("alternative_number").text
 
         if not ref.startswith("VEL"):
-            print "AAAARGH!!! %s" % ref
+            return
 
         nr = ref.replace("VEL", "").strip("0")
         link = self.NA_SOURCE_LINK % nr

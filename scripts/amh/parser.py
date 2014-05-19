@@ -25,7 +25,7 @@ def get_records(filename):
     root = tree.getroot()
     return tree.findall("//record")
 
-if __name__ == "__main__":
+def genamh():
     template = get_template()
     records = get_records("./data/na-indented.xml")
     locations = get_locations()
@@ -42,8 +42,13 @@ if __name__ == "__main__":
                 data["xmldata"] = escape(etree.tostring(record))
 
             html = template.render(data).strip()
-            # print json.dumps(data, indent = 4)
-            print html
-            sys.exit()
+            yield html
         else:
             print "Skipping this one..."
+
+if __name__ == "__main__":
+    for index, record in enumerate(genamh()):
+        print record
+
+        if index > 2:
+            sys.exit()

@@ -1,5 +1,3 @@
-<%= source_link %>
-
 == {{int:filedesc}} ==
 {{Artwork
   <% if title_nl or title_en %>
@@ -11,10 +9,7 @@
                       {{en|<%= description_en %>}}
   <% endif %>
   |source           = {{Atlas of Mutual Heritage|institute=<%= institution_shortcode %>}}
-  [http://www.atlasofmutualheritage.nl/en/object/?id=<%= amh_id %> Source on the AMH website]
-  <% if source_link %>
-  - [<%= source_link %> Source on the website of the Nationaal Archief]
-  <% endif %>
+  [http://www.atlasofmutualheritage.nl/en/object/?id=<%= amh_id %> Source at the Atlas of Mutual Heritage]  <% if source_link %> - [<%= source_link %> Source at the Nationaal Archief]<% endif %>
   |notes            =
   <% if subjects_en %>
     {{en|1='''Subjects''': <%= subjects_en %>}}
