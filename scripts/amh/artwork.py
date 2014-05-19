@@ -1,5 +1,7 @@
-import re
+import re, parsedatetime
 from cgi import escape
+
+cal = parsedatetime.Calendar()
 
 class Artwork():
     record = False
@@ -14,11 +16,15 @@ class Artwork():
 
     MAP_SUBJECT = "chart / map / plan"
 
-    params = {}
+    params = {
+        "authors" : []
+    }
 
     DIMENSION_REGEX = re.compile("(.*) x (.*) (.*)")
 
     YEAR_REGEX = re.compile("\d.*")
+
+    NA_SOURCE_LINK = "http://www.gahetna.nl/collectie/archief/inventaris/index/eadid/4.VEL/inventarisnr/%s/level/file"
 
     mapper = {
         "description" : ["description"],
@@ -26,7 +32,6 @@ class Artwork():
         "category" : ["VOC", "WIC"],
         "dimensions" : ["dimension.free"],
         "image_filename" : ["reproduction.reference"],
-        "author" : ["creator.role", "creator"],
         "institution" : ["current_owner"],
         "institution_shortcode" : ["current_owner"],
         "accession_number" : ["alternative_number"],
@@ -34,12 +39,12 @@ class Artwork():
         "inscription_creator" : ["inscription.creator"],
         "medium" : ["material", "object_category", "technique"],
         "title" : ["title"],
-        "notes" : ["association.subject"],
-        "other_fields" : ["related_object.reference"]
+        "notes" : ["association.subject"]
     }
 
-    def __init__(self, record):
+    def __init__(self, record, locations):
         self.record = record
+        self.locations = locations
 
     def itertags(self, record):
         for tag in record:
@@ -68,6 +73,10 @@ class Artwork():
         self.populate_categories()
         self.populate_date()
         self.populate_subjects()
+        self.populate_authors()
+        self.populate_locations()
+        self.populate_company_type()
+        self.populate_source_link()
 
     def add_param(self, name, text):
         self.params[name] = escape(text)
@@ -107,6 +116,21 @@ class Artwork():
         elif self.is_wic:
             self.categories.append("West-Indische Compagnie")
 
+    def populate_source_link(self):
+        # For now, we can only create source links for NA files
+        if self.params["institution"] != "Nationaal Archief":
+            return
+
+        ref = self.record.find("alternative_number").text
+
+        if not ref.startswith("VEL"):
+            print "AAAARGH!!! %s" % ref
+
+        nr = ref.replace("VEL", "").strip("0")
+        link = self.NA_SOURCE_LINK % nr
+
+        self.add_param("source_link", link)
+
     def category(self, tag):
         if tag.tag == "VOC":
             self.is_voc = True
@@ -121,50 +145,89 @@ class Artwork():
             return "na"
 
     def populate_date(self):
-        date = self.record.xpath("production.period[@lang='en-GB']")[0].text
-        year = self.YEAR_REGEX.findall(date)[0]
-        cat = False
+        date_tag = self.record.xpath("production.period[@lang='en-GB']")
         ref = self.record.find("priref").text
 
-        if date.startswith("ca."):
+        if not date_tag or len(date_tag) == 0:
+            print "No date for ID %s thing it seems!" % ref
+            return
+
+        date = date_tag[0].text.strip()
+        year = self.YEAR_REGEX.findall(date)[0].strip()
+        cat = False
+        tmpl = False
+
+        if date.startswith("c"):
             tmpl = "{{other date|circa|%s}}" % year
             cat = year
-        elif date.startswith("after."):
+        elif date.startswith("after"):
             tmpl = "{{other date|after|%s}}" % year
         elif date.isdigit():
             tmpl = year
             cat = year
-        elif "-" in date:
+        elif "-" in date and not date.count("/"):
             start, end = date.split("-")
-            tmpl = "{{other date|between|%s|%s}}" % (start, end)
+            tmpl = "{{other date|between|%s|%s}}" % (start.strip(), end.strip())
 
             if int(end) - int(start) < 11:
                 cat = str((int(start) / 10) * 10) + "s"
         else:
-            print "AAARGH!!!"
+            # As a last resort, use parsedatetime
+            d = cal.parse(date)
 
-        print (ref, date, cat, tmpl)
+            # Only parse dates
+            if d[1] == 1:
+                tmpl = "%s-%s-%s" % (d[0][0], d[0][1], d[0][2])
 
-    def _populate_date(self):
-        import pdb;pdb.set_trace()
-        start = self.record.find("production.date.start").text
-        end = self.record.find("production.date.end").text
+        if tmpl:
+            self.add_param("date", tmpl)
 
-        if start == end:
-            date = start
-            self.categories.append(date)
-        else:
-            date = "{{other date|-|%s|%s}}" % (start, end)
-
-            if int(end) - int(start) < 11:
-                cat = str((int(start) / 10) * 10) + "s"
+            if cat:
                 self.categories.append(cat)
-
-        self.add_param("date", date)
+        else:
+            print "No date for ID %s thing it seems!" % ref
 
     def populate_subjects(self):
         self.add_param("subjects_nl", ", ".join(self.subjects_nl))
         self.add_param("subjects_en", ", ".join(self.subjects_en))
+
+    def populate_authors(self):
+        for creator in self.record.xpath("creator"):
+            parts = creator.text.split(",")
+            map(lambda p:p.strip(), parts)
+            parts.reverse()
+            name = " ".join(parts).strip()
+            self.params["authors"].append(name)
+
+    def populate_locations(self):
+        location = self.record.find("related_object.reference")
+
+        if not location:
+            return
+
+        location_id = location.text
+
+        if location_id not in self.locations:
+            return
+
+        loc = self.locations[location_id]
+
+        self.params.update({
+            "location_amh_id" : loc["amh_id"],
+            "location_type" : loc["kind"]
+        })
+
+        if "lat" in loc:
+            self.add_param("location_lat", loc["lat"])
+            self.add_param("location_lng", loc["lng"])
+
+        if "title" in loc:
+            self.add_param("location_title", loc["title"])
+
+
+    def populate_company_type(self):
+        company_type = "VOC" if self.is_voc else "WIC"
+        self.add_param("company_type", company_type)
 
     def notes(self, tag):
         lang = self.get_lang(tag)
@@ -180,6 +243,10 @@ class Artwork():
 
     def dimensions(self, tag):
         size = self.DIMENSION_REGEX.findall(tag.text)
+
+        if not size:
+            return
+
         w, h, u = size[0]
         w = w.replace(",", ".")
         h = h.replace(",", ".")

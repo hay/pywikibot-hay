@@ -1,3 +1,5 @@
+<%= source_link %>
+
 == {{int:filedesc}} ==
 {{Artwork
   <% if title_nl or title_en %>
@@ -10,30 +12,46 @@
   <% endif %>
   |source           = {{Atlas of Mutual Heritage|institute=<%= institution_shortcode %>}}
   [http://www.atlasofmutualheritage.nl/en/object/?id=<%= amh_id %> Source on the AMH website]
+  <% if source_link %>
+  - [<%= source_link %> Source on the website of the Nationaal Archief]
+  <% endif %>
   |notes            =
   <% if subjects_en %>
-    {{en|'''Subjects''': <%= subjects_en %>}}
+    {{en|1='''Subjects''': <%= subjects_en %>}}
   <% endif %>
   <% if subjects_nl %>
-    {{nl|'''Onderwerpen''': <%= subjects_nl %>}}
+    {{nl|1='''Onderwerpen''': <%= subjects_nl %>}}
   <% endif %>
-  <% if inscriptions %>
+  <% if inscription_text %>
+  <% if location_title %>
+    <% if location_type == "post" %>
+    {{en|1='''Post''': this image is related to a <%= company_type %> trading post called [http://www.atlasofmutualheritage.nl/en/post/?id=<%= location_amh_id %> ''<%= location_title %>'']}}
+    <% elif location_type == "fort" %>
+    {{en|1='''Fort''': this image is related to a <%= company_type %> fort called [http://www.atlasofmutualheritage.nl/en/fort/?id=<%= location_amh_id %> ''<%= location_title %>'']}}
+    <% endif %>
+  <% endif %>
   |inscriptions     = {{Inscription
       |1=<%= inscription_text %>
       <% if inscription_creator %>
       |comment = author: <%= inscription_creator %>
       <% endif %>
+      |language = nl
   }}
   <% endif %>
   |date             = <%= date %>
+  <% if authors %>
   |author           =
+    <% for author in authors %>
+    {{Creator:<%= author %>}}
+    <% endfor %>
+  <% endif %>
   |institution      = {{Institution:<%= institution %>}}
   |medium           =
   <% if medium_nl %>
-    {{nl|<%= medium_nl %>}}
+    {{nl|1=<%= medium_nl %>}}
   <% endif %>
   <% if medium_en %>
-    {{en|<%= medium_en %>}}
+    {{en|1=<%= medium_en %>}}
   <% endif %>
   <% if dimensions %>
   |dimensions       = <%= dimensions %>
@@ -41,6 +59,10 @@
   |accession number = <%= accession_number %>
   |permission       = {{PD-Art-100}}
 }}
+
+<% if location_lat %>
+{{Object location|<%= location_lat %>|<%= location_lng %>}}
+<% endif %>
 
 <!-- <metadata_mapped_json><%= jsondata %></metadata_mapped_json> -->
 

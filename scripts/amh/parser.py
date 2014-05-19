@@ -3,6 +3,7 @@ from artwork import Artwork
 from jinja2 import Environment, PackageLoader, FileSystemLoader
 from xml.sax.saxutils import escape
 import sys, json, re
+from locations import get_locations
 
 def get_template():
     loader = FileSystemLoader( searchpath = "./" )
@@ -26,23 +27,21 @@ def get_records(filename):
 
 if __name__ == "__main__":
     template = get_template()
-    records = get_records("./data/kb-indented.xml")
+    records = get_records("./data/na-indented.xml")
+    locations = get_locations()
 
     for record in records:
-        # if record.find("priref").text != "6700":
-            # continue
-
-        artwork = Artwork(record)
-        artwork.process()
-        continue
+        artwork = Artwork(record, locations)
 
         if artwork.is_valid():
             artwork.process()
             data = artwork.get_data()
-            # data["jsondata"] = json.dumps(data)
-            # data["xmldata"] = escape(etree.tostring(record))
 
-            html = template.render(data)
+            if "nodata" not in sys.argv:
+                data["jsondata"] = json.dumps(data)
+                data["xmldata"] = escape(etree.tostring(record))
+
+            html = template.render(data).strip()
             # print json.dumps(data, indent = 4)
             print html
             sys.exit()
