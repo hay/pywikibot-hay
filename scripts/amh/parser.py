@@ -2,11 +2,17 @@ from lxml import etree
 from artwork import Artwork
 from jinja2 import Environment, PackageLoader, FileSystemLoader
 from xml.sax.saxutils import escape
-import sys, json, re
+import sys, json, re, os
 from locations import get_locations
 
+PATH = os.path.realpath(
+    os.path.join(
+        os.getcwd(), os.path.dirname(__file__)
+    )
+)
+
 def get_template():
-    loader = FileSystemLoader( searchpath = "./" )
+    loader = FileSystemLoader( searchpath = PATH )
 
     env = Environment(
         block_start_string='<%',
@@ -25,9 +31,9 @@ def get_records(filename):
     root = tree.getroot()
     return tree.findall("//record")
 
-def genamh():
+def genamh(filename):
     template = get_template()
-    records = get_records("./data/na-indented.xml")
+    records = get_records(filename)
     locations = get_locations()
 
     for record in records:
@@ -42,7 +48,7 @@ def genamh():
                 data["xmldata"] = escape(etree.tostring(record))
 
             html = template.render(data).strip()
-            yield html
+            yield (html, data)
         else:
             print "Skipping this one..."
 

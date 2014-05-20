@@ -1,6 +1,12 @@
 """ Parse the 'locaties' xml to a simple id with lat/lng """
 from lxml import etree
-import sys, json, re
+import sys, json, re, os
+
+PATH = os.path.realpath(
+    os.path.join(
+        os.getcwd(), os.path.dirname(__file__)
+    )
+)
 
 def load(filename, kind):
     tree = etree.parse(filename)
@@ -44,8 +50,8 @@ def parse_records(records, kind):
     return data
 
 def get_locations():
-    posts = load("./data/locaties-indented.xml", "post")
-    forts = load("./data/forten-indented.xml", "fort")
+    posts = load(PATH + "/data/locaties-indented.xml", "post")
+    forts = load(PATH + "/data/forten-indented.xml", "fort")
     posts.update(forts)
     return posts
 

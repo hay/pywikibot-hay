@@ -121,7 +121,7 @@ class Artwork():
         if not ref.startswith("VEL"):
             return
 
-        nr = ref.replace("VEL", "").strip("0")
+        nr = ref.replace("VEL", "").lstrip("0")
         link = self.NA_SOURCE_LINK % nr
 
         self.add_param("source_link", link)
