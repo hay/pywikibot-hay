@@ -197,13 +197,50 @@ class Artwork():
         self.add_param("subjects_nl", ", ".join(self.subjects_nl))
         self.add_param("subjects_en", ", ".join(self.subjects_en))
 
+    def normalize_name(self, name):
+        """ We change the 'Last name, First name' format to 'First name Last name' """
+        parts = name.split(",")
+        map(lambda p:p.strip(), parts)
+        parts.reverse()
+        name = " ".join(parts).strip()
+
+        return name
+
+    def get_author_string(self, creator, lang):
+        if lang in creator:
+            return "%s (%s)" % (creator["name"], creator[lang])
+        else:
+            return creator["name"]
+
+    def get_author_name(self, creator):
+        if "anonymous" not in creator["name"].lower():
+            return creator["name"]
+        else:
+            return False
+
     def populate_authors(self):
+        creators = []
+
         for creator in self.record.xpath("creator"):
-            parts = creator.text.split(",")
-            map(lambda p:p.strip(), parts)
-            parts.reverse()
-            name = " ".join(parts).strip()
-            self.params["authors"].append(name)
+            name = self.normalize_name(creator.text)
+            creators.append({ "name" : name })
+
+        # We need to match the creator.role to the creator
+        for role in self.record.xpath("creator.role"):
+            index = int(role.get('occurrence')) - 1 # Occurences start at 1 :/
+            lang = self.get_lang(role)
+            creators[index][lang] = role.text
+
+        # Now create the relevant data for the template
+        authors_en = map(lambda c:self.get_author_string(c, "en"), creators)
+        authors_nl = map(lambda c:self.get_author_string(c, "nl"), creators)
+
+        self.params.update({
+            "creators" : creators,
+            "authors" : filter(None, map(self.get_author_name, creators)),
+            "authors_en" : ", ".join(authors_en),
+            "authors_nl" : ", ".join(authors_nl)
+        })
 
     def populate_locations(self):
         location = self.record.find("related_object.reference")
@@ -228,7 +265,7 @@ class Artwork():
             self.add_param("location_lng", loc["lng"])
 
         if "title" in loc:
-            self.add_param("location_title", loc["title"])
+            self.add_param("location_title", self.normalize_name(loc["title"]))
 
 
     def populate_company_type(self):

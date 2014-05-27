@@ -56,5 +56,10 @@ if __name__ == "__main__":
     gen = genamh("./data/na-indented.xml")
 
     for index, (html, data) in enumerate(gen):
-        if data["amh_id"] == "2478":
-            print html
+        if data["amh_id"] == "2474":
+            if "html" in sys.argv:
+                print html
+            else:
+                print json.dumps(data, indent = 4)
+
+            sys.exit()

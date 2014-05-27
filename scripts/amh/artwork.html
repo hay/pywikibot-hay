@@ -1,12 +1,12 @@
 == {{int:filedesc}} ==
 {{Artwork
   <% if title_nl or title_en %>
-  |title            = {{nl|<%= title_nl %>}}
-                      {{en|<%= title_en %>}}
+  |title            = {{nl|1=<%= title_nl %>}}
+                      {{en|1=<%= title_en %>}}
   <% endif %>
   <% if description_nl or description_en %>
-  |description      = {{nl|<%= description_nl %>}}
-                      {{en|<%= description_en %>}}
+  |description      = {{nl|1=<%= description_nl %>}}
+                      {{en|1=<%= description_en %>}}
   <% endif %>
   |source           = {{Atlas of Mutual Heritage|institute=<%= institution_shortcode %>}}
   [http://www.atlasofmutualheritage.nl/en/object/?id=<%= amh_id %> Source at the Atlas of Mutual Heritage]  <% if source_link %> - [<%= source_link %> Source at the Nationaal Archief]<% endif %>
@@ -34,11 +34,13 @@
   }}
   <% endif %>
   |date             = <%= date %>
-  <% if authors %>
+  <% if authors or authors_nl or authors_en %>
   |author           =
     <% for author in authors %>
-    {{Creator:<%= author %>}}
+{{Creator:<%= author %>}}
     <% endfor %>
+    {{nl|1=<%= authors_nl %>}}
+    {{en|1=<%= authors_en %>}}
   <% endif %>
   |institution      = {{Institution:<%= institution %>}}
   |medium           =
@@ -52,7 +54,7 @@
   |dimensions       = <%= dimensions %>
   <% endif %>
   <% if institution_shortcode == "na" %>
-  |accession number = <%= new_accesion_number %> (old number: <%= accession_number %>)
+  |accession number = '''<%= new_accesion_number %>''' (old number: ''<%= accession_number %>'')
   <% else %>
   |accession number = <%= accession_number %>
   <% endif %>
