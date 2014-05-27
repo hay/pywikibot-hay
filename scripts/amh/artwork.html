@@ -51,7 +51,11 @@
   <% if dimensions %>
   |dimensions       = <%= dimensions %>
   <% endif %>
+  <% if institution_shortcode == "na" %>
+  |accession number = <%= new_accesion_number %> (old number: <%= accession_number %>)
+  <% else %>
   |accession number = <%= accession_number %>
+  <% endif %>
   |permission       = {{PD-Art-100}}
 }}
 

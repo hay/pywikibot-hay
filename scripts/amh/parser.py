@@ -53,8 +53,7 @@ def genamh(filename):
             print "Skipping this one..."
 
 if __name__ == "__main__":
-    for index, record in enumerate(genamh()):
-        print record
-
-        if index > 2:
+    for index, (html, data) in enumerate(genamh('./data/na-indented.xml')):
+        if (data['amh_id'] == "2478"):
+            print html
             sys.exit()

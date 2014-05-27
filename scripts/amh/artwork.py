@@ -13,9 +13,13 @@ class Artwork():
 
     DIMENSION_REGEX = re.compile("(.*) x (.*) (.*)")
 
+    NA_INVENTORYNR_CLEANUP_REGEX = re.compile("flap|\(.*\)|tek.*|[a-z]")
+
     YEAR_REGEX = re.compile("\d.*")
 
-    NA_SOURCE_LINK = "http://www.gahetna.nl/collectie/archief/inventaris/index/eadid/4.VEL/inventarisnr/%s/level/file"
+    NA_SOURCE_LINK = "http://www.gahetna.nl/collectie/archief/inventaris/index/eadid/4.%s/inventarisnr/%s/level/file"
+
+    NA_NEW_INVENTORY_NR = "NL-HaNA_4.%s_%s"
 
     mapper = {
         "description" : ["description"],
@@ -25,7 +29,6 @@ class Artwork():
         "image_filename" : ["reproduction.reference"],
         "institution" : ["current_owner"],
         "institution_shortcode" : ["current_owner"],
-        "accession_number" : ["alternative_number"],
         "inscription_text" : ["inscription.content"],
         "inscription_creator" : ["inscription.creator"],
         "medium" : ["material", "object_category", "technique"],
@@ -121,10 +124,18 @@ class Artwork():
         if not ref.startswith("VEL"):
             return
 
-        nr = ref.replace("VEL", "").lstrip("0")
-        link = self.NA_SOURCE_LINK % nr
+        (zut, col, nr) = re.split("(VELH?)", ref)
+
+        # Clean up the inventorynr
+        nr = nr.lstrip("0").replace('_', '.')
+        nr = re.sub(self.NA_INVENTORYNR_CLEANUP_REGEX, '', nr)
+
+        link = self.NA_SOURCE_LINK % (col, nr)
+        new_inventory_nr = self.NA_NEW_INVENTORY_NR %(col, nr)
 
         self.add_param("source_link", link)
+        self.add_param("accession_number", ref)
+        self.add_param("new_accesion_number", new_inventory_nr)
 
     def category(self, tag):
         if tag.tag == "VOC":
