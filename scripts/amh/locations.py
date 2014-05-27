@@ -23,8 +23,13 @@ def transform(record):
     lng = record.find("longitude").text
 
     if lat is not "0" and lng is not "0":
-        data["lat"] = lat[0]
-        data["lng"] = lng
+        lat = lat[0]
+
+    # For some reason, some of these latitudes are fucked up and don't have a dot...
+    if "." not in lat or "." not in lng:
+        lat = None
+        lng = None
+        return data
 
     # We just take the first title, bit unclear what actually is the correct
     # title. Also, en/nl seems to be exactly the same...
@@ -32,6 +37,9 @@ def transform(record):
 
     if title:
         data["title"] = title[0].text
+
+    data["lat"] = lat
+    data["lng"] = lng
 
     return data
 

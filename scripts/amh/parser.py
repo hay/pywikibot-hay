@@ -39,27 +39,27 @@ def genamh(filename):
     for record in records:
         artwork = Artwork(record, locations)
 
-        if artwork.is_valid():
-            artwork.process()
-            data = artwork.get_data()
+        if not artwork.is_valid():
+            continue
 
-            if "nodata" not in sys.argv:
-                data["jsondata"] = json.dumps(data)
-                data["xmldata"] = escape(etree.tostring(record))
+        artwork.process()
+        data = artwork.get_data()
 
-            html = template.render(data).strip()
-            yield (html, data)
-        else:
-            print "Skipping this one..."
+        if "nodata" not in sys.argv:
+            data["jsondata"] = json.dumps(data)
+            data["xmldata"] = escape(etree.tostring(record))
+
+        html = template.render(data).strip().encode('utf-8')
+        yield (html, data)
 
 if __name__ == "__main__":
-    gen = genamh("./data/na-indented.xml")
+    dataset = "kb" if "kbdata" in sys.argv else "na"
+    # print "Loading dataset " + dataset
+
+    gen = genamh("./data/%s-indented.xml" % dataset)
 
     for index, (html, data) in enumerate(gen):
-        if data["amh_id"] == "2474":
-            if "html" in sys.argv:
-                print html
-            else:
-                print json.dumps(data, indent = 4)
-
+        if data["amh_id"] == sys.argv[1]:
+            print html
+            # print json.dumps(data, indent = 4)
             sys.exit()

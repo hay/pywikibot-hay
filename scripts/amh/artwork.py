@@ -99,7 +99,6 @@ class Artwork():
         Commons"""
 
         if len(self.record.findall("current_owner")) != 1:
-            print("Sorry, We need one, and only one, owner")
             return False
 
         return True
@@ -115,10 +114,15 @@ class Artwork():
             self.categories.append("West-Indische Compagnie")
 
     def populate_source_link(self):
-        # For now, we can only create source links for NA files
-        if self.params["institution"] != "Nationaal Archief":
+        if self.params["institution_shortcode"] == "kb":
+            # Only add the accession number
+            self.add_param(
+                "accession_number",
+                self.record.find("alternative_number").text
+            )
             return
 
+        # For now, we can only create source links for NA files
         ref = self.record.find("alternative_number").text
 
         if not ref.startswith("VEL"):
@@ -155,7 +159,6 @@ class Artwork():
         ref = self.record.find("priref").text
 
         if not date_tag or len(date_tag) == 0:
-            print "No date for ID %s thing it seems!" % ref
             return
 
         date = date_tag[0].text.strip()
@@ -190,8 +193,6 @@ class Artwork():
 
             if cat:
                 self.categories.append(cat)
-        else:
-            print "No date for ID %s thing it seems!" % ref
 
     def populate_subjects(self):
         self.add_param("subjects_nl", ", ".join(self.subjects_nl))
@@ -229,6 +230,10 @@ class Artwork():
         for role in self.record.xpath("creator.role"):
             index = int(role.get('occurrence')) - 1 # Occurences start at 1 :/
             lang = self.get_lang(role)
+
+            if self.params["amh_id"] == 4769:
+                print creators, index, lang
+
             creators[index][lang] = role.text
 
         # Now create the relevant data for the template
