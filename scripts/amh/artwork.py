@@ -208,7 +208,7 @@ class Artwork():
     def populate_locations(self):
         location = self.record.find("related_object.reference")
 
-        if not location:
+        if location is None:
             return
 
         location_id = location.text
