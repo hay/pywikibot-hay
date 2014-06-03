@@ -316,5 +316,7 @@ class Artwork():
     def populate_medium(self):
         material = self.get_langs("material")
         technique = self.get_langs("technique")
-        self.add_param("medium_nl", "%s op %s" % (technique["nl"], material["nl"]))
-        self.add_param("medium_en", "%s on %s" % (technique["en"], material["en"]))
+
+        if technique and material:
+            self.add_param("medium_nl", "%s op %s" % (technique["nl"], material["nl"]))
+            self.add_param("medium_en", "%s on %s" % (technique["en"], material["en"]))

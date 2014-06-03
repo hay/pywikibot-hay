@@ -54,8 +54,6 @@ def genamh(filename):
 
 if __name__ == "__main__":
     dataset = "kb" if "kbdata" in sys.argv else "na"
-    # print "Loading dataset " + dataset
-
     gen = genamh("./data/%s-indented.xml" % dataset)
 
     for index, (html, data) in enumerate(gen):
