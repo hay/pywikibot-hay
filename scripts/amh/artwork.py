@@ -75,6 +75,7 @@ class Artwork():
         self.populate_locations()
         self.populate_company_type()
         self.populate_source_link()
+        self.populate_medium()
 
     def add_param(self, name, text):
         self.params[name] = escape(text)
@@ -87,6 +88,18 @@ class Artwork():
         else:
             self.add_param(name, tag.text)
 
+    def get_langs(self, tagname):
+        tags = self.record.xpath(tagname)
+        data = {}
+
+        for tag in tags:
+            if self.get_lang(tag) == "nl":
+                data["nl"] = tag.text
+            else:
+                data["en"] = tag.text
+
+        return data
+
     def get_lang(self, tag):
         return 'nl' if tag.get('lang') == 'nl-NL' else 'en'
 
@@ -95,8 +108,7 @@ class Artwork():
         return self.params
 
     def is_valid(self):
-        """A few records we discard because they're too complex to translate to
-        Commons"""
+        """ We skip records with multiple owners """
 
         if len(self.record.findall("current_owner")) != 1:
             return False
@@ -231,10 +243,10 @@ class Artwork():
             index = int(role.get('occurrence')) - 1 # Occurences start at 1 :/
             lang = self.get_lang(role)
 
-            if self.params["amh_id"] == 4769:
-                print creators, index, lang
-
-            creators[index][lang] = role.text
+            # For some reason i do not really understand, some records have
+            # multiple roles, but only one creator (6081 for example)
+            if index < len(creators):
+                creators[index][lang] = role.text
 
         # Now create the relevant data for the template
         authors_en = map(lambda c:self.get_author_string(c, "en"), creators)
@@ -300,3 +312,9 @@ class Artwork():
         h = h.replace(",", ".")
         sizetmpl = "{{Size|unit=%s|width=%s|height=%s}}" % (u, w, h)
         self.add_param("dimensions", sizetmpl)
+
+    def populate_medium(self):
+        material = self.get_langs("material")
+        technique = self.get_langs("technique")
+        self.add_param("medium_nl", "%s op %s" % (technique["nl"], material["nl"]))
+        self.add_param("medium_en", "%s on %s" % (technique["en"], material["en"]))

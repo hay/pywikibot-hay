@@ -60,6 +60,9 @@ if __name__ == "__main__":
 
     for index, (html, data) in enumerate(gen):
         if data["amh_id"] == sys.argv[1]:
-            print html
-            # print json.dumps(data, indent = 4)
+            if "dumpjson" in sys.argv:
+                print json.dumps(data, indent = 4)
+            else:
+                print html
+
             sys.exit()
