@@ -22,7 +22,6 @@ class Artwork():
     NA_NEW_INVENTORY_NR = "NL-HaNA_4.%s_%s"
 
     mapper = {
-        "description" : ["description"],
         "amh_id" : ["priref"],
         "category" : ["VOC", "WIC"],
         "dimensions" : ["dimension.free"],
@@ -76,6 +75,7 @@ class Artwork():
         self.populate_company_type()
         self.populate_source_link()
         self.populate_medium()
+        self.populate_descriptions()
 
     def add_param(self, name, text):
         self.params[name] = escape(text)
@@ -294,12 +294,23 @@ class Artwork():
         subjects = getattr(self, "subjects_" + lang)
         subjects.append(tag.text)
 
-    def description(self, tag):
-        # Pfff, for some reason lots of descriptions have "- " in the string
-        if tag.text.startswith("- "):
-            tag.text = tag.text.replace("- ", "")
+    def populate_descriptions(self):
+        tags = self.get_langs("description")
 
-        self.add_param_from_tag("description", tag)
+        def parse(text):
+            # We transform "- " with newlines
+            text = text.replace("- ", "\n\n")
+
+            # Replace < and > with '' for italics
+            text = text.replace("<", "''").replace(">", "''")
+
+            # And the obvious stripping
+            text = text.strip()
+
+            return text
+
+        self.add_param("description_nl", parse( tags["nl"] ))
+        self.add_param("description_en", parse( tags["en"] ))
 
     def dimensions(self, tag):
         size = self.DIMENSION_REGEX.findall(tag.text)
