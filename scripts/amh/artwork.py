@@ -307,6 +307,9 @@ class Artwork():
             # And the obvious stripping
             text = text.strip()
 
+            # And removing of possible double newlines
+            text = text.replace("\n\n\n", "\n\n")
+
             return text
 
         self.add_param("description_nl", parse( tags["nl"] ))
